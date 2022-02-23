@@ -1,0 +1,23 @@
+# info to search signature
+id: common-03-02
+info:
+  name: Joomla Host header Injection
+  risk: Medium
+
+variables:
+  - hostfile: File("~/wordlist/host-injection.txt")
+
+requests:
+  - method: GET
+    redirect: true
+    path: >-
+      {{.BaseURL}}/{{.BaseURL}}
+    headers:
+      - Host: {{.hostfile}}
+      - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:55.0) Gecko/20100101 Firefox/55 checking
+    detections:
+      - >-
+        StringSearch("response", {{.hostfile}})
+
+reference:
+  - link: https://vulmon.com/exploitdetails?qidtp=exploitdb&qid=47632
