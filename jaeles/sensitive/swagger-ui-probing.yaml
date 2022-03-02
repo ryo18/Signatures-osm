@@ -22,7 +22,3 @@ requests:
     detections:
       - >-
         StatusCode() == 200 && StringSearch("response", "window.swaggerUi") && StringSearch("response", "localSwaggerJsons")
-
-references:
-  - xss_poc: |
-      https://example.com/swagger-ui/index.html?url=a%3Cscript%3Ealert(document.domain)%3C/script%3E
