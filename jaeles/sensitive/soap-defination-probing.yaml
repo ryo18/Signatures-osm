@@ -1,0 +1,22 @@
+id: soap-defination-probing
+level: 2
+info:
+  name: SOAP Defination Probing
+  risk: Potential
+
+params:
+  - root: '{{.BaseURL}}'
+
+variables:
+  - swagger: File("~/wordlist/soap-defination-probing.txt")
+
+requests:
+  - method: GET
+    redirect: false
+    url: >-
+      {{.root}}{{.swagger}}application.wsdl
+    headers:
+      - User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:55.0) Gecko/20100101 Firefox/55
+    detections:
+      - >-
+        StatusCode() == 200 && StringSearch("response", "application/xml") && StringSearch("body", "<resource") && StringSearch("body", "<method")
